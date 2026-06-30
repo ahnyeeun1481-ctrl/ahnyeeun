@@ -7,15 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#f3efe7;
-    --grid:#d9d2c2;
-    --navy:#33536e;
-    --navy-deep:#22384b;
-    --sky:#a9c6d6;
-    --sky-light:#cfe1e9;
-    --ink:#2b2b2b;
-    --cream:#fbf8f1;
-    --clip:#9fb6c2;
+    --bg:#14181d;
+    --panel:#1c2129;
+    --panel-soft:#21262f;
+    --line:#2c323d;
+    --gold:#f3b62b;
+    --gold-soft:#c98f1c;
+    --text:#eceff3;
+    --text-dim:#9aa3b0;
   }
 
   *{box-sizing:border-box;}
@@ -23,865 +22,408 @@
   body{
     margin:0;
     min-height:100vh;
-    background-color:var(--paper);
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size:38px 38px;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(243,182,43,.06), transparent 40%),
+      radial-gradient(circle at 88% 85%, rgba(243,182,43,.05), transparent 45%),
+      var(--bg);
     font-family:'Noto Sans KR', sans-serif;
-    color:var(--ink);
-    padding:60px 20px 90px;
+    color:var(--text);
+    padding:50px 20px;
     display:flex;
     justify-content:center;
   }
 
   .board{
-    position:relative;
-    max-width:880px;
     width:100%;
+    max-width:1080px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 30px 70px rgba(0,0,0,.45);
+    display:flex;
+    overflow:hidden;
   }
 
-  .badge{
-    position:absolute;
-    top:-40px;
-    left:50%;
-    transform:translateX(-50%) rotate(-2deg);
-    background:var(--cream);
-    border:1px solid #d8d2c4;
-    box-shadow:0 8px 18px rgba(0,0,0,.12);
-    padding:10px 26px;
-    border-radius:4px;
+  /* ===== Sidebar ===== */
+  .sidebar{
+    flex:0 0 300px;
+    background:var(--panel-soft);
+    border-right:1px solid var(--line);
+    padding:38px 28px 32px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .sb-name{
     font-family:'Gaegu', sans-serif;
     font-weight:700;
-    font-size:20px;
-    color:#111;
-    letter-spacing:1px;
-    z-index:5;
+    font-size:30px;
+    color:var(--text);
+    letter-spacing:.5px;
+  }
+  .sb-role{
+    margin-top:4px;
+    font-size:13.5px;
+    color:var(--gold);
+    font-weight:700;
   }
 
-  .pin{
-    position:absolute;
-    width:34px;
-    height:48px;
-    top:-22px;
-    z-index:6;
-    filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));
-  }
-  .pin svg{width:100%;height:100%;}
-  .pin.left{left:80px; transform:rotate(-6deg);}
-  .pin.right{right:80px; transform:rotate(6deg);}
-
-  .frame{
-    position:relative;
-    box-shadow:0 18px 40px rgba(0,0,0,.18);
-    padding:30px 28px 0;
-    color:#fff;
-  }
-  .stamp-edge {
-    --bite: 14px;
-    background:
-      radial-gradient(circle at 0 50%, transparent var(--bite), var(--cream) calc(var(--bite) + 0.5px)) 0 0 / var(--bite) calc(var(--bite)*2) repeat-y,
-      radial-gradient(circle at 100% 50%, transparent var(--bite), var(--cream) calc(var(--bite) + 0.5px)) 100% 0 / var(--bite) calc(var(--bite)*2) repeat-y,
-      radial-gradient(circle at 50% 0, transparent var(--bite), var(--cream) calc(var(--bite) + 0.5px)) 0 0 / calc(var(--bite)*2) var(--bite) repeat-x,
-      radial-gradient(circle at 50% 100%, transparent var(--bite), var(--cream) calc(var(--bite) + 0.5px)) 0 100% / calc(var(--bite)*2) var(--bite) repeat-x,
-      var(--cream);
-    border: 1px solid #d8d2c4;
+  .sb-divider{
+    height:1px;
+    background:var(--line);
+    margin:22px 0;
   }
 
-  .hero-row{
+  .sb-info dl{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    row-gap:10px;
+    column-gap:14px;
+    margin:0;
+  }
+  .sb-info dt{ color:var(--text-dim); font-size:13px; font-weight:500;}
+  .sb-info dd{ margin:0; font-size:13px; font-weight:700; text-align:right;}
+
+  .sb-label{
+    font-size:11px;
+    letter-spacing:2px;
+    color:var(--gold-soft);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+
+  .credit-list{
+    list-style:none;
+    margin:0 0 4px;
+    padding:0;
     display:flex;
-    gap:30px;
-    align-items:flex-end;
+    flex-direction:column;
+    gap:10px;
+  }
+  .credit-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:13.5px;
+    line-height:1.5;
+    color:var(--text);
+    background:rgba(255,255,255,.02);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+  }
+  .credit-list .dot{
+    flex:0 0 6px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--gold);
+    margin-top:6px;
+  }
+  .credit-list b{
+    color:var(--gold);
   }
 
-  .portrait-wrap{
-    flex:0 0 230px;
+  .sb-contact{
+    margin-top:auto;
+    padding-top:26px;
+  }
+  .sb-contact a{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:30px;
+    padding:10px 16px;
+    font-size:13px;
+    color:var(--text);
+    text-decoration:none;
   }
 
+  /* ===== Main ===== */
+  .main{
+    flex:1;
+    padding:44px 44px 0;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .title-tape{
+    display:inline-block;
+    background:var(--gold);
+    color:#14181d;
+    font-family:'Gaegu', sans-serif;
+    font-weight:700;
+    font-size:34px;
+    padding:6px 18px;
+    border-radius:4px;
+    margin-bottom:10px;
+  }
+  .subtitle{
+    font-family:'Nanum Pen Script', cursive;
+    font-size:23px;
+    color:var(--text-dim);
+    margin:8px 0 20px;
+  }
+
+  .genre-card{
+    background:var(--panel-soft);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 20px;
+    margin-bottom:30px;
+  }
+  .genre-card .eyebrow{
+    font-size:11px;
+    letter-spacing:2px;
+    color:var(--gold-soft);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .genre-card p{
+    margin:0;
+    font-size:14.5px;
+    line-height:1.75;
+    color:var(--text);
+  }
+
+  .section-label{
+    font-size:11px;
+    letter-spacing:2px;
+    color:var(--gold-soft);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+
+  /* works */
   .reveal-btn{
     width:100%;
     display:flex;
     align-items:center;
-    justify-content:center;
+    justify-content:space-between;
     gap:8px;
-    background:var(--navy-deep);
-    color:#fff;
-    border:2px solid var(--sky-light);
-    border-radius:8px;
-    padding:14px 12px;
-    font-family:'Gaegu', sans-serif;
-    font-size:18px;
+    background:var(--bg);
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    font-family:'Noto Sans KR', sans-serif;
+    font-size:15px;
     font-weight:700;
     cursor:pointer;
-    box-shadow:0 6px 14px rgba(0,0,0,.2);
-    transition:background-color .2s;
-    margin-top:10px;
+    transition:background-color .2s, border-color .2s;
+    margin-bottom:10px;
   }
-  .reveal-btn:first-of-type{ margin-top:0; }
-  .reveal-btn:hover{ background:#1b2e3f; }
-  .reveal-btn .chev{ transition:transform .3s ease; }
+  .reveal-btn:hover{ border-color:var(--gold-soft); }
+  .reveal-btn .chev{ transition:transform .3s ease; flex-shrink:0; stroke:var(--gold);}
+  .reveal-btn.open{ border-color:var(--gold); }
   .reveal-btn.open .chev{ transform:rotate(180deg); }
 
   .work-panel{
     max-height:0;
     overflow:hidden;
     transition:max-height .4s ease;
-    background:var(--cream);
-    border-radius:0 0 8px 8px;
-    color:var(--navy-deep);
+    background:var(--panel-soft);
+    border-radius:0 0 10px 10px;
+    margin:-10px 0 10px;
   }
   .work-inner{
-    padding:16px 16px 14px;
+    padding:18px 18px 16px;
+    border:1px solid var(--line);
+    border-top:none;
+    border-radius:0 0 10px 10px;
   }
   .work-title{
     font-family:'Gaegu', sans-serif;
     font-weight:700;
-    font-size:17px;
-    margin-bottom:8px;
+    font-size:18px;
+    margin-bottom:10px;
+    color:var(--gold);
   }
   .work-inner p{
     font-size:13.5px;
-    line-height:1.6;
-    margin:0 0 8px;
-    color:#3c4a52;
+    line-height:1.75;
+    margin:0 0 10px;
+    color:var(--text-dim);
     white-space:pre-wrap;
   }
-  .work-chip{
-    display:inline-block;
-    margin-top:4px;
+  .work-tags{
     font-size:12px;
-    color:var(--navy);
-    background:var(--sky-light);
-    border-radius:20px;
-    padding:4px 10px;
+    color:var(--gold-soft);
+    font-weight:700;
+    margin-bottom:8px;
   }
   .work-link{
     display:inline-block;
-    margin-top:8px;
+    margin-top:6px;
     font-size:13px;
-    color:var(--navy-deep);
-    background:var(--sky-light);
+    color:#14181d;
+    background:var(--gold);
     border-radius:20px;
-    padding:6px 14px;
+    padding:7px 16px;
     text-decoration:none;
     font-weight:700;
   }
-  .work-link:hover{ background:var(--sky); }
-
-  .author-tag{
-    margin-top:16px;
-    background:var(--cream);
-    color:var(--navy-deep);
-    border-radius:3px;
-    padding:14px 16px;
-    box-shadow:0 5px 10px rgba(0,0,0,.15);
-    transform:rotate(-1deg);
-  }
-  .author-tag .name{
-    font-family:'Nanum Pen Script', cursive;
-    font-size:30px;
-    line-height:1;
-  }
-  .author-tag .role{
-    font-size:13px;
-    color:#5b6f7c;
-    margin-top:2px;
-    font-weight:500;
-  }
-
-  .hero-text{
-    flex:1;
-    padding-bottom:8px;
-  }
-  .title-tape{
-    display:inline-block;
-    background:var(--sky);
-    color:#111;
-    font-family:'Gaegu', sans-serif;
-    font-weight:700;
-    font-size:34px;
-    padding:6px 16px;
-    transform:rotate(-1.2deg);
-    box-shadow:2px 4px 0 rgba(0,0,0,.08);
-    margin-bottom:6px;
-  }
-  .subtitle{
-    font-family:'Nanum Pen Script', cursive;
-    font-size:22px;
-    color:#111;
-    margin:6px 0 22px;
-  }
-
-  .genre-card{
-    background:var(--cream);
-    border:1px solid #d8d2c4;
-    border-radius:10px;
-    padding:16px 18px;
-    margin-bottom:26px;
-    box-shadow:0 4px 10px rgba(0,0,0,.12);
-  }
-  .genre-card .eyebrow{
-    font-size:12px;
-    letter-spacing:2px;
-    color:#111;
-    font-weight:700;
-    margin-bottom:6px;
-  }
-  .genre-card p{
-    margin:0;
-    font-size:15px;
-    line-height:1.7;
-    color:#111;
-    white-space:pre-wrap;
-  }
+  .work-link:hover{ background:#f7c854; }
 
   .contact-strip{
-    background:var(--cream);
-    color:var(--navy-deep);
-    margin:0 -28px 0;
-    padding:22px 28px;
-    border-top:2px dashed var(--navy);
+    margin-top:28px;
+    padding:22px 0;
+    border-top:1px dashed var(--line);
   }
   .contact-strip .label{
-    font-family:'Gaegu', sans-serif;
     font-weight:700;
-    font-size:18px;
-    margin-bottom:8px;
+    font-size:15px;
+    margin-bottom:10px;
   }
   .contact-strip .email{
     display:inline-flex;
     align-items:center;
     gap:8px;
-    background:#fff;
-    border:1px solid #d8d2c4;
+    background:var(--bg);
+    border:1px solid var(--line);
     border-radius:30px;
     padding:8px 18px;
-    font-size:15px;
-    box-shadow:0 3px 6px rgba(0,0,0,.08);
+    font-size:14px;
   }
 
   .savebar{
-    background:var(--navy-deep);
-    color:#fdf9ef;
-    margin:0 -28px;
-    padding:16px 28px 18px;
+    background:var(--bg);
+    margin:0 -44px;
+    padding:16px 44px 22px;
     display:flex;
     flex-wrap:wrap;
-    gap:18px 30px;
+    gap:18px 32px;
     align-items:center;
-    font-family:'Gaegu', sans-serif;
+    border-top:1px solid var(--line);
   }
-  .savebar .item{font-size:15px;}
-  .savebar .item b{font-size:18px; display:block;}
+  .savebar .item{font-size:13px; color:var(--text-dim);}
+  .savebar .item b{font-size:16px; display:block; color:var(--gold);}
 
-  .footer-tag{
-    text-align:center;
-    margin-top:26px;
-    font-size:12px;
-    color:#8a8475;
-    letter-spacing:1px;
-  }
-
-  /* ===== Admin UI ===== */
-  .admin-fab{
-    position:fixed;
-    bottom:22px;
-    right:22px;
-    z-index:50;
-    background:var(--navy-deep);
-    color:#fff;
-    border:none;
-    border-radius:50px;
-    padding:12px 18px;
-    font-family:'Gaegu', sans-serif;
-    font-size:15px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,0,0,.3);
-  }
-  .admin-fab:hover{ background:#1b2e3f; }
-
-  .admin-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(20,28,34,.55);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:100;
-    padding:20px;
-  }
-  .admin-overlay.show{ display:flex; }
-
-  .admin-modal{
-    background:#fff;
-    border-radius:12px;
-    padding:24px;
-    width:100%;
-    max-width:380px;
-    box-shadow:0 16px 40px rgba(0,0,0,.3);
-    font-family:'Noto Sans KR', sans-serif;
-  }
-  .admin-modal h3{
-    margin:0 0 14px;
-    font-family:'Gaegu', sans-serif;
-    font-size:20px;
-    color:var(--navy-deep);
-  }
-  .admin-modal input{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:15px;
-    margin-bottom:12px;
-  }
-  .admin-modal .row{
-    display:flex;
-    gap:10px;
-  }
-  .admin-modal button{
-    flex:1;
-    padding:10px 0;
-    border:none;
-    border-radius:8px;
-    font-family:'Gaegu', sans-serif;
-    font-size:15px;
-    font-weight:700;
-    cursor:pointer;
-  }
-  .admin-modal .btn-ok{ background:var(--navy-deep); color:#fff; }
-  .admin-modal .btn-cancel{ background:#eee; color:#333; }
-  .admin-modal .err{ color:#c0392b; font-size:13px; margin:-4px 0 10px; min-height:16px; }
-
-  .editing [contenteditable="true"]{
-    outline:2px dashed var(--navy);
-    outline-offset:3px;
-    border-radius:4px;
-    cursor:text;
-  }
-  .editing [contenteditable="true"]:focus{
-    outline:2px solid #2a7;
-  }
-
-  .admin-bar{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:var(--navy-deep);
-    color:#fff;
-    z-index:60;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    gap:16px;
-    padding:12px 16px;
-    font-family:'Gaegu', sans-serif;
-    box-shadow:0 -4px 14px rgba(0,0,0,.25);
-  }
-  .editing .admin-bar{ display:flex; }
-  .admin-bar span{ font-size:14px; }
-  .admin-bar button{
-    border:none;
-    border-radius:8px;
-    padding:8px 16px;
-    font-family:'Gaegu', sans-serif;
-    font-weight:700;
-    font-size:14px;
-    cursor:pointer;
-  }
-  .admin-bar .save{ background:#3fa66b; color:#fff; }
-  .admin-bar .add{ background:var(--sky-light); color:var(--navy-deep); }
-  .admin-bar .exit{ background:#888; color:#fff; }
-  .admin-bar .del-work{
-    display:none;
-  }
-  .editing .work-panel .del-btn{
-    display:inline-block;
-  }
-  .del-btn{
-    display:none;
-    margin-top:6px;
-    font-size:12px;
-    color:#c0392b;
-    background:#fbe5e3;
-    border:none;
-    border-radius:14px;
-    padding:4px 10px;
-    cursor:pointer;
-  }
-
-  .toast{
-    position:fixed;
-    bottom:80px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#2a2a2a;
-    color:#fff;
-    padding:10px 20px;
-    border-radius:30px;
-    font-size:14px;
-    z-index:120;
-    opacity:0;
-    transition:opacity .3s;
-    pointer-events:none;
-  }
-  .toast.show{ opacity:1; }
-
-  @media (max-width: 600px){
-    .hero-row{flex-direction:column; align-items:center;}
-    .portrait-wrap{flex:0 0 auto; width:60%; max-width:220px;}
-    .pin.left{left:30px;} .pin.right{right:30px;}
+  @media (max-width: 760px){
+    .board{flex-direction:column;}
+    .sidebar{flex:0 0 auto; border-right:none; border-bottom:1px solid var(--line);}
+    .main{padding:34px 24px 0;}
+    .savebar{margin:0 -24px; padding:16px 24px 20px;}
+    .title-tape{font-size:26px;}
   }
 </style>
 </head>
 <body>
-  <div class="board" id="board">
-    <div class="pin left"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="0" width="12" height="56" rx="3" fill="#c7d4da"/><circle cx="20" cy="10" r="9" fill="none" stroke="#7c8e96" stroke-width="3"/></svg></div>
-    <div class="pin right"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="0" width="12" height="56" rx="3" fill="#c7d4da"/><circle cx="20" cy="10" r="9" fill="none" stroke="#7c8e96" stroke-width="3"/></svg></div>
-    <div class="badge" contenteditable="false" data-field="badge">📖 이리아의 서랍</div>
+<div class="board">
 
-    <div class="stamp-edge frame">
-      <div class="hero-row">
-        <div class="portrait-wrap">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sb-name">이리아</div>
+    <div class="sb-role">소설 작가 · 스토리 창작</div>
 
-          <div id="works-list"></div>
+    <div class="sb-divider"></div>
 
-          <button class="reveal-btn" id="add-work-btn" style="display:none;background:var(--sky-light);color:var(--navy-deep);">
-            ＋ 작품 추가
-          </button>
-
-          <div class="author-tag">
-            <div class="name" contenteditable="false" data-field="authorName">이리아</div>
-            <div class="role" contenteditable="false" data-field="authorRole">소설 작가 · 스토리 창작</div>
-          </div>
-        </div>
-
-        <div class="hero-text">
-          <div class="title-tape" contenteditable="false" data-field="mainTitle">이리아의 세계</div>
-          <div class="subtitle" contenteditable="false" data-field="subtitle">은밀한 마음으로 쓰는, 한 줄의 애증</div>
-
-          <div class="genre-card">
-            <div class="eyebrow">FIELD &amp; STORY</div>
-            <p contenteditable="false" data-field="fieldStory">머릿속의 상상들을 글로 표현하는 작가. 아직 글을 많이 써본 적 없지만 항상 좋은 글을 독자분들에게 선물로 드리겠습니다.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-strip">
-        <div class="label">✉️ 작가에게 문의하기</div>
-        <div class="email">📩 <span contenteditable="false" data-field="email">alove1481@naver.com</span></div>
-      </div>
-
-      <div class="savebar">
-        <div class="item"><b contenteditable="false" data-field="newSerial">준비 중</b>새 연재</div>
-        <div class="item"><b contenteditable="false" data-field="deadline">곧 공개</b>마감일</div>
-        <div class="item" style="margin-left:auto; font-size:14px;">Save the page!</div>
-      </div>
+    <div class="sb-info">
+      <dl>
+        <dt>소속</dt><dd>네이버 웹소설</dd>
+        <dt>전공</dt><dd>공업화학</dd>
+        <dt>학적</dt><dd>국립대 재학</dd>
+      </dl>
     </div>
 
-    <div class="footer-tag">Designed in scrapbook style</div>
+    <div class="sb-divider"></div>
+
+    <div class="sb-label">PROFILE</div>
+    <ul class="credit-list">
+      <li><span class="dot"></span><span><b>네이버 웹소설</b> 작가로 활동 중</span></li>
+      <li><span class="dot"></span><span>국립대 <b>공업화학과</b> 재학 중</span></li>
+      <li><span class="dot"></span><span><b>「애증적인 관계」</b> 집필</span></li>
+      <li><span class="dot"></span><span><b>「재벌집 후계자의 은밀한 덕질」</b> 집필</span></li>
+    </ul>
   </div>
 
-  <!-- 관리자 진입 버튼 -->
-  <button class="admin-fab" id="admin-fab">🔧 관리자</button>
+  <!-- Main -->
+  <div class="main">
+    <div class="title-tape">이리아의 세계</div>
+    <div class="subtitle">은밀한 마음으로 쓰는, 한 줄의 애증</div>
 
-  <!-- 비밀번호 모달 -->
-  <div class="admin-overlay" id="admin-overlay">
-    <div class="admin-modal">
-      <h3>관리자 로그인</h3>
-      <input type="password" id="admin-pass" placeholder="비밀번호를 입력하세요">
-      <div class="err" id="admin-err"></div>
-      <div class="row">
-        <button class="btn-cancel" id="admin-cancel">취소</button>
-        <button class="btn-ok" id="admin-login">확인</button>
-      </div>
+    <div class="genre-card">
+      <div class="eyebrow">FIELD &amp; STORY</div>
+      <p>머릿속의 상상들을 글로 표현하는 작가. 아직 글을 많이 써본 적 없지만 항상 좋은 글을 독자분들에게 선물로 드리겠습니다.</p>
+    </div>
+
+    <div class="section-label">MY WORKS</div>
+    <div id="works-list"></div>
+
+    <div class="contact-strip">
+      <div class="label">✉️ 작가에게 문의하기</div>
+      <div class="email">📩 alove1481@naver.com</div>
+      <div class="email">📩 인스타 : write_yeri</div>
+    </div>
+
+    <div class="savebar">
+      <div class="item"><b>준비 중</b>새 연재</div>
+      <div class="item"><b>곧 공개</b>마감일</div>
+      <div class="item" style="margin-left:auto;">Save the page!</div>
     </div>
   </div>
+</div>
 
-  <!-- 편집 모드 하단 바 -->
-  <div class="admin-bar" id="admin-bar">
-    <span>✏️ 편집 모드 — 텍스트를 클릭해서 바로 수정하세요</span>
-    <button class="save" id="admin-save">저장하기</button>
-    <button class="exit" id="admin-exit">편집 종료</button>
-  </div>
-
-  <div class="toast" id="toast"></div>
-
-  <script>
-    // ===================== 설정 =====================
-    const ADMIN_PASSWORD = "iria2026"; // 원하는 비밀번호로 바꿔주세요
-    const STORAGE_KEY = "iria-site-content";
-
-    // ===== JSONBin 설정 (여러 컴퓨터에서 같은 데이터를 보기 위한 클라우드 저장소) =====
-    const JSONBIN_API_KEY = "$2a$10$uvfhQQOQClGcyzaq1srRI.a4R0efUvoTQjR7oImQUjU1u/HkI8jSS";
-    let JSONBIN_BIN_ID = "6a421d96da38895dfe0e87b1"; // 고정된 저장소 ID
-    const JSONBIN_BASE = "https://api.jsonbin.io/v3/b";
-
-    // 기본 작품 데이터 (저장된 게 없을 때 사용)
-    const defaultWorks = [
-      {
-        id: "w1",
-        button: "애증적인 관계",
-        title: "원치 않는 임신",
-        body: "남편의 외도로 허무하게 끝난 결혼 생활. 아람은 그 지독한 상처 속에서도 여전히 그를 향해 남은 미련과 애증으로 괴로워한다. 설상가상으로, 이미 헤어진 전남편의 아이까지 홀로 품게 된 아람. 선물이라기엔 너무도 벅찬 골칫덩어리 같은 현실 앞에, 다정하고 저돌적인 남자 '강민'이 혜성처럼 나타나 그녀의 일상을 흔든다. 평온을 되찾아가던 그때, 전남편의 외도가 사실은 완벽한 이혼을 위해 조작된 연극이었음이 밝혀진다. 뒤늦게 알게 된 잔혹한 진실, 그리고 자신을 지키려는 새로운 사랑. 아람은 과연 두 남자 사이에서 어떤 선택을 하게 될까? 아이와 함께 써 내려가는, 좌충우돌하고도 애틋한 사랑의 기록.",
-        tags: "#재결합 #이혼 #육아",
-        link: "https://new.toto-romance.com/ebooks/e_view.asp?idx=264090"
-      },
-      {
-        id: "w2",
-        button: "재벌집 후계자의 은밀한 덕질",
-        title: "계약 결혼",
-        body: "내용...",
-        tags: "",
-        link: ""
-      }
-    ];
-
-    const defaultContent = {
-      badge: "📖 이리아의 서랍",
-      authorName: "이리아",
-      authorRole: "소설 작가 · 스토리 창작",
-      mainTitle: "이리아의 세계",
-      subtitle: "은밀한 마음으로 쓰는, 한 줄의 애증",
-      fieldStory: "머릿속의 상상들을 글로 표현하는 작가. 아직 글을 많이 써본 적 없지만 항상 좋은 글을 독자분들에게 선물로 드리겠습니다.",
-      email: "alove1481@naver.com",
-      newSerial: "준비 중",
-      deadline: "곧 공개",
-      works: defaultWorks
-    };
-
-    let isEditing = false;
-    let currentData = null;
-
-    function showToast(msg){
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(()=> t.classList.remove('show'), 2200);
+<script>
+  const works = [
+    {
+      id: "w1",
+      button: "애증적인 관계",
+      title: "원치 않는 임신",
+      body: "남편의 외도로 허무하게 끝난 결혼 생활. 아람은 그 지독한 상처 속에서도 여전히 그를 향해 남은 미련과 애증으로 괴로워한다. 설상가상으로, 이미 헤어진 전남편의 아이까지 홀로 품게 된 아람. 선물이라기엔 너무도 벅찬 골칫덩어리 같은 현실 앞에, 다정하고 저돌적인 남자 '강민'이 혜성처럼 나타나 그녀의 일상을 흔든다. 평온을 되찾아가던 그때, 전남편의 외도가 사실은 완벽한 이혼을 위해 조작된 연극이었음이 밝혀진다. 뒤늦게 알게 된 잔혹한 진실, 그리고 자신을 지키려는 새로운 사랑. 아람은 과연 두 남자 사이에서 어떤 선택을 하게 될까? 아이와 함께 써 내려가는, 좌충우돌하고도 애틋한 사랑의 기록.",
+      tags: "#재결합 #이혼 #육아",
+      link: "https://new.toto-romance.com/ebooks/e_view.asp?idx=264090"
+    },
+    {
+      id: "w2",
+      button: "재벌집 후계자의 은밀한 덕질",
+      title: "계약 결혼",
+      body: "대한민국이 사랑하는 배우 이승아. 찬란한 조명 아래 선 그녀의 삶은 완벽한 한 편의 영화 같았다. 하지만 카메라가 꺼진 뒤 그녀가 돌아가는 곳은 세상이 알아서는 안 될 비밀이 숨겨진 좁은 방이었다. 원나잇으로 태어난 딸, 하양이. 지키고 싶어 감추었던 존재는 어느덧 그녀의 목을 조이는 가장 날카로운 칼날이 되어 돌아온다. 걷잡을 수 없이 퍼져가는 추문과 벼랑 끝으로 몰린 커리어. 모든 것을 포기하려던 그 순간, 승아의 앞에 기적처럼 한 남자가 나타난다. H그룹의 후계자이자, 오직 그녀의 연기만을 이정표 삼아 살아온 지독한 골수팬, 서태하. 태하는 승아를 지키기 위해 기꺼이 자신의 명예를 내던진다. 아이의 아빠가 되겠다는, 세상에서 가장 무모하고도 다정한 거짓말. 그렇게 시작된 재벌가 저택에서의 기묘한 동거 생활은 거짓으로 쌓아 올린 성벽처럼 아슬아슬하기만 하다. 시부모님을 속여야 하는 긴박한 연기 속에서, 승아는 깨닫는다. 이 남자가 내미는 손은 단순한 팬심이 아닌, 지독하게 시린 삶을 견뎌온 이의 애달픈 구원이었다는 것을. 거짓이 진심이 되고, 타인이 가족이 되어가는 승아의 또 다른 이야기, 필모그래피가 지금 시작된다.",
+      tags: "#선결혼후연애 #재벌남 #연예계물",
+      link: "http://mobile.ok.toto-romance.com/ebooks/e_view.asp?S_Kinds=&eKinds=&S_Or=&page=&S_STR=&S_PageSize=10&S_ViewType=1&S_Deasc=DESC&S_OrderBy=1&S_Cate=&S_Cate2=&S_Cate3=&S_Cate4=&idx=292140"
     }
+  ];
 
-    // ===================== 저장소 로드 / 저장 (JSONBin) =====================
-    function getSavedBinId(){
-      // 같은 브라우저에서는 캐시해두지만, 진짜 기준은 JSONBIN_BIN_ID 변수(코드에 박아넣는 값)
-      return JSONBIN_BIN_ID || localStorage.getItem('iria-bin-id') || "";
-    }
+  function escapeHtml(s){
+    return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
 
-    async function createBin(data){
-      const res = await fetch(JSONBIN_BASE, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": JSONBIN_API_KEY,
-          "X-Bin-Name": "iria-site-content"
-        },
-        body: JSON.stringify(data)
-      });
-      if(!res.ok) throw new Error("bin 생성 실패: " + res.status);
-      const json = await res.json();
-      return json.metadata.id;
-    }
+  function renderWorks(){
+    const list = document.getElementById('works-list');
+    list.innerHTML = "";
 
-    async function loadContent(){
-      const binId = getSavedBinId();
-      if(binId){
-        try{
-          const res = await fetch(`${JSONBIN_BASE}/${binId}/latest`, {
-            headers: { "X-Master-Key": JSONBIN_API_KEY }
-          });
-          if(res.ok){
-            const json = await res.json();
-            return json.record;
-          }
-        }catch(e){
-          console.log("불러오기 실패, 기본값 사용", e);
-        }
-      }
-      // bin이 아직 없는 경우: 기본값으로 새 bin을 만들고 ID를 알려준다
-      try{
-        const fresh = JSON.parse(JSON.stringify(defaultContent));
-        const newId = await createBin(fresh);
-        localStorage.setItem('iria-bin-id', newId);
-        showBinIdNotice(newId);
-        return fresh;
-      }catch(e){
-        showErrorBox("저장소 생성 실패: " + (e && e.message ? e.message : e));
-        return JSON.parse(JSON.stringify(defaultContent));
-      }
-    }
+    works.forEach((w) => {
+      const btn = document.createElement('button');
+      btn.className = 'reveal-btn';
+      btn.innerHTML = `
+        <span>${escapeHtml(w.button)}</span>
+        <svg class="chev" viewBox="0 0 20 20" width="16" height="16"><path d="M5 7l5 5 5-5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      `;
 
-    async function saveContent(data){
-      const binId = getSavedBinId();
-      try{
-        if(!binId){
-          const newId = await createBin(data);
-          localStorage.setItem('iria-bin-id', newId);
-          showBinIdNotice(newId);
-          return true;
-        }
-        const res = await fetch(`${JSONBIN_BASE}/${binId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": JSONBIN_API_KEY
-          },
-          body: JSON.stringify(data)
-        });
-        return res.ok;
-      }catch(e){
-        console.error("저장 실패", e);
-        return false;
-      }
-    }
+      const panel = document.createElement('div');
+      panel.className = 'work-panel';
+      panel.innerHTML = `
+        <div class="work-inner">
+          <div class="work-title">${escapeHtml(w.title)}</div>
+          <p>${escapeHtml(w.body)}</p>
+          <div class="work-tags">${escapeHtml(w.tags)}</div>
+          ${w.link ? `<a href="${w.link}" target="_blank" class="work-link">📖 작품 보러가기</a>` : ''}
+        </div>
+      `;
 
-    function showBinIdNotice(id){
-      // 화면에 눈에 띄게 ID를 보여줘서, 사용자가 클로드에게 전달해 코드에 고정할 수 있도록 함
-      const box = document.createElement('div');
-      box.style.position = 'fixed';
-      box.style.top = '10px';
-      box.style.left = '50%';
-      box.style.transform = 'translateX(-50%)';
-      box.style.background = '#fff3cd';
-      box.style.border = '2px solid #e0a800';
-      box.style.borderRadius = '10px';
-      box.style.padding = '14px 20px';
-      box.style.zIndex = '200';
-      box.style.fontFamily = "'Noto Sans KR', sans-serif";
-      box.style.fontSize = '14px';
-      box.style.maxWidth = '90%';
-      box.style.boxShadow = '0 6px 16px rgba(0,0,0,.2)';
-      box.innerHTML = `⚠️ 새 저장소가 생성되었습니다.<br>이 ID를 클로드에게 전달해서 코드에 고정해주세요:<br><b style="font-size:16px;">${id}</b>`;
-      document.body.appendChild(box);
-    }
-
-    // ===================== 렌더링 =====================
-    function renderWorks(works){
-      const list = document.getElementById('works-list');
-      list.innerHTML = "";
-      works.forEach((w) => {
-        const btn = document.createElement('button');
-        btn.className = 'reveal-btn';
-        btn.innerHTML = `
-          <span contenteditable="false" data-field="button" data-work="${w.id}">${escapeHtml(w.button)}</span>
-          <svg class="chev" viewBox="0 0 20 20" width="16" height="16"><path d="M5 7l5 5 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        `;
-        btn.addEventListener('click', (e) => {
-          if(isEditing && e.target.matches('[contenteditable="true"]')) return; // 편집 중 텍스트 클릭은 토글 막기
-          toggleWork(btn);
-        });
-
-        const panel = document.createElement('div');
-        panel.className = 'work-panel';
-        panel.innerHTML = `
-          <div class="work-inner">
-            <div class="work-title" contenteditable="false" data-field="title" data-work="${w.id}">${escapeHtml(w.title)}</div>
-            <p contenteditable="false" data-field="body" data-work="${w.id}">${escapeHtml(w.body)}</p>
-            <div class="work-title" contenteditable="false" data-field="tags" data-work="${w.id}">${escapeHtml(w.tags)}</div>
-            ${w.link ? `<a href="${escapeAttr(w.link)}" target="_blank" class="work-link" data-field="link-display">📖 작품 보러가기</a>` : `<a href="#" target="_blank" class="work-link" data-field="link-display" style="display:none">📖 작품 보러가기</a>`}
-            <div style="margin-top:8px;">
-              <input type="text" class="link-input" data-field="link" data-work="${w.id}" value="${escapeAttr(w.link)}" placeholder="작품 링크 URL" style="display:none;width:100%;padding:6px 10px;border:1px solid #ccc;border-radius:6px;font-size:12px;">
-            </div>
-            <button class="del-btn" data-work="${w.id}">🗑 이 작품 삭제</button>
-          </div>
-        `;
-        list.appendChild(btn);
-        list.appendChild(panel);
-      });
-      applyEditableState();
-    }
-
-    function escapeHtml(s){
-      return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-    }
-    function escapeAttr(s){
-      return (s||"").replace(/"/g,"&quot;");
-    }
-
-    function renderFixedFields(data){
-      document.querySelectorAll('[data-field]:not([data-work])').forEach(el => {
-        const key = el.getAttribute('data-field');
-        if(data[key] !== undefined){
-          el.textContent = data[key];
-        }
-      });
-    }
-
-    function toggleWork(btn){
-      const panel = btn.nextElementSibling;
-      const isOpen = btn.classList.toggle('open');
-      panel.style.maxHeight = isOpen ? panel.scrollHeight + 'px' : '0';
-    }
-
-    function applyEditableState(){
-      document.querySelectorAll('[data-field]').forEach(el => {
-        if(el.tagName === 'A') return;
-        el.setAttribute('contenteditable', isEditing ? 'true' : 'false');
-      });
-      document.querySelectorAll('.link-input').forEach(el => {
-        el.style.display = isEditing ? 'block' : 'none';
-      });
-      document.querySelectorAll('.del-btn').forEach(el => {
-        el.style.display = isEditing ? 'inline-block' : 'none';
-      });
-      document.getElementById('add-work-btn').style.display = isEditing ? 'flex' : 'none';
-    }
-
-    // ===================== 데이터 수집 (화면 -> 객체) =====================
-    function collectDataFromDOM(){
-      const data = { works: [] };
-      document.querySelectorAll('[data-field]:not([data-work])').forEach(el => {
-        const key = el.getAttribute('data-field');
-        data[key] = el.textContent.trim();
+      btn.addEventListener('click', () => {
+        const isOpen = btn.classList.toggle('open');
+        panel.style.maxHeight = isOpen ? panel.scrollHeight + 'px' : '0';
       });
 
-      const workIds = [...new Set([...document.querySelectorAll('[data-work]')].map(el => el.getAttribute('data-work')))];
-      workIds.forEach(id => {
-        const buttonEl = document.querySelector(`[data-field="button"][data-work="${id}"]`);
-        const titleEl = document.querySelector(`[data-field="title"][data-work="${id}"]`);
-        const bodyEl = document.querySelector(`[data-field="body"][data-work="${id}"]`);
-        const tagsEl = document.querySelector(`[data-field="tags"][data-work="${id}"]`);
-        const linkEl = document.querySelector(`[data-field="link"][data-work="${id}"]`);
-        data.works.push({
-          id,
-          button: buttonEl ? buttonEl.textContent.trim() : "",
-          title: titleEl ? titleEl.textContent.trim() : "",
-          body: bodyEl ? bodyEl.textContent.trim() : "",
-          tags: tagsEl ? tagsEl.textContent.trim() : "",
-          link: linkEl ? linkEl.value.trim() : ""
-        });
-      });
-      return data;
-    }
-
-    // ===================== 초기화 =====================
-    async function init(){
-      try{
-        currentData = await loadContent();
-        renderFixedFields(currentData);
-        renderWorks(currentData.works || []);
-      }catch(e){
-        showErrorBox("초기화 중 오류 발생: " + (e && e.message ? e.message : e));
-      }
-    }
-
-    function showErrorBox(msg){
-      const box = document.createElement('div');
-      box.style.position = 'fixed';
-      box.style.top = '10px';
-      box.style.left = '50%';
-      box.style.transform = 'translateX(-50%)';
-      box.style.background = '#f8d7da';
-      box.style.border = '2px solid #c0392b';
-      box.style.borderRadius = '10px';
-      box.style.padding = '14px 20px';
-      box.style.zIndex = '999';
-      box.style.fontFamily = "'Noto Sans KR', sans-serif";
-      box.style.fontSize = '13px';
-      box.style.maxWidth = '90%';
-      box.style.color = '#7a1f1f';
-      box.style.boxShadow = '0 6px 16px rgba(0,0,0,.25)';
-      box.style.whiteSpace = 'pre-wrap';
-      box.textContent = "❌ " + msg;
-      document.body.appendChild(box);
-    }
-
-    init();
-
-    // ===================== 관리자 모드 진입/해제 =====================
-    const fab = document.getElementById('admin-fab');
-    const overlay = document.getElementById('admin-overlay');
-    const passInput = document.getElementById('admin-pass');
-    const errBox = document.getElementById('admin-err');
-
-    fab.addEventListener('click', () => {
-      overlay.classList.add('show');
-      passInput.value = "";
-      errBox.textContent = "";
-      passInput.focus();
+      list.appendChild(btn);
+      list.appendChild(panel);
     });
+  }
 
-    document.getElementById('admin-cancel').addEventListener('click', () => {
-      overlay.classList.remove('show');
-    });
-
-    document.getElementById('admin-login').addEventListener('click', tryLogin);
-    passInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') tryLogin(); });
-
-    function tryLogin(){
-      if(passInput.value === ADMIN_PASSWORD){
-        overlay.classList.remove('show');
-        enterEditMode();
-      }else{
-        errBox.textContent = "비밀번호가 올바르지 않습니다.";
-      }
-    }
-
-    function enterEditMode(){
-      isEditing = true;
-      document.getElementById('board').closest('body').classList.add('editing');
-      document.body.classList.add('editing');
-      applyEditableState();
-      fab.style.display = 'none';
-      showToast("편집 모드 시작! 텍스트를 클릭해서 수정하세요.");
-    }
-
-    function exitEditMode(){
-      isEditing = false;
-      document.body.classList.remove('editing');
-      applyEditableState();
-      fab.style.display = 'block';
-    }
-
-    document.getElementById('admin-exit').addEventListener('click', () => {
-      exitEditMode();
-    });
-
-    document.getElementById('admin-save').addEventListener('click', async () => {
-      const data = collectDataFromDOM();
-      const ok = await saveContent(data);
-      if(ok){
-        currentData = data;
-        showToast("저장되었습니다! ✅");
-        // 링크 표시 갱신
-        renderWorks(data.works);
-        if(isEditing) applyEditableState();
-      }else{
-        showToast("저장에 실패했습니다. 다시 시도해주세요.");
-      }
-    });
-
-    // 작품 추가
-    document.getElementById('add-work-btn').addEventListener('click', () => {
-      const data = collectDataFromDOM();
-      const newId = 'w' + (Date.now());
-      data.works.push({
-        id: newId,
-        button: "새 작품 제목",
-        title: "부제목",
-        body: "작품 소개를 입력하세요.",
-        tags: "#태그",
-        link: ""
-      });
-      currentData = data;
-      renderWorks(data.works);
-      applyEditableState();
-      showToast("작품이 추가되었습니다. 저장하기를 눌러주세요!");
-    });
-
-    // 작품 삭제 (이벤트 위임)
-    document.getElementById('works-list').addEventListener('click', (e) => {
-      if(e.target.classList.contains('del-btn')){
-        e.stopPropagation();
-        const id = e.target.getAttribute('data-work');
-        const data = collectDataFromDOM();
-        data.works = data.works.filter(w => w.id !== id);
-        currentData = data;
-        renderWorks(data.works);
-        applyEditableState();
-        showToast("작품이 삭제되었습니다. 저장하기를 눌러주세요!");
-      }
-    });
-  </script>
+  renderWorks();
+</script>
 </body>
 </html>
